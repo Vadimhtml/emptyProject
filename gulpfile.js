@@ -1,9 +1,9 @@
 var gulp = require('gulp'),
-    gulpLess = require('gulp-less'),
+    gulpStylus = require('gulp-stylus'),
     gulpMyth = require('gulp-myth'),
     gulpUtil = require('gulp-util'),
     gulpUglify = require('gulp-uglify'),
-    gulpJade = require('gulp-jade'),
+    gulpPug = require('gulp-pug'),
     gulpConcat = require('gulp-concat'),
     gulpPrompt = require('gulp-prompt'),
     gulpFtp = require('gulp-ftp'),
@@ -24,22 +24,22 @@ function wrapPipe(taskFn) {
     }
 }
 
-gulp.task('default', function () {
-    gulp.watch('./src/**/*.less', ['less']);
-    gulp.watch('./src/**/*.jade', ['jade']);
+gulp.task('default', ['styl', 'pug', 'js'], function () {
+    gulp.watch('./src/**/*.styl', ['styl']);
+    gulp.watch('./src/**/*.pug', ['pug']);
     gulp.watch('./src/**/*.js', ['js']);
 });
 
-gulp.task('less', wrapPipe(function (success, error) {
-    return gulp.src('./src/**/*.less')
-        .pipe(gulpLess().on('error', error))
+gulp.task('styl', wrapPipe(function (success, error) {
+    return gulp.src('./src/**/*.styl')
+        .pipe(gulpStylus().on('error', error))
         .pipe(gulpMyth({compress: true}).on('error', error))
         .pipe(gulp.dest(buildPath));
 }));
 
-gulp.task('jade', wrapPipe(function (success, error) {
-    return gulp.src('./src/**/*.jade')
-        .pipe(gulpJade().on('error', error))
+gulp.task('pug', wrapPipe(function (success, error) {
+    return gulp.src('./src/**/*.pug')
+        .pipe(gulpPug().on('error', error))
         .pipe(gulp.dest(buildPath));
 }));
 
