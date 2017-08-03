@@ -1,9 +1,11 @@
 {
   "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "gulp": " ^3.9.0",
+    "gulp-babel": "^6.1.2",
     "gulp-concat": "^2.6.0",
     "gulp-ftp": "^1.1.0",
-    "gulp-jade": "^1.1.0",
     "gulp-less": "^3.0.5",
     "gulp-myth": "^1.1.0",
     "gulp-prompt": "^0.1.2",

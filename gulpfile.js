@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     gulpConcat = require('gulp-concat'),
     gulpPrompt = require('gulp-prompt'),
     gulpFtp = require('gulp-ftp'),
+    gulpBabel = require('gulp-babel'),
     buildPath = './build';
 
 function wrapPipe(taskFn) {
@@ -24,10 +25,11 @@ function wrapPipe(taskFn) {
     }
 }
 
-gulp.task('default', ['styl', 'pug', 'js'], function () {
+gulp.task('default', ['styl', 'pug', 'js', 'app'], function () {
     gulp.watch('./src/**/*.styl', ['styl']);
     gulp.watch('./src/**/*.pug', ['pug']);
     gulp.watch('./src/**/*.js', ['js']);
+    gulp.watch('./src/**/*.js', ['app']);
 });
 
 gulp.task('styl', wrapPipe(function (success, error) {
@@ -43,9 +45,16 @@ gulp.task('pug', wrapPipe(function (success, error) {
         .pipe(gulp.dest(buildPath));
 }));
 
+gulp.task('app', wrapPipe(function (success, error) {
+    return gulp.src(['./src/**/*.js'])
+        .pipe(gulpBabel({
+            presets: ['react']
+        }))
+        .pipe(gulp.dest(buildPath));
+}));
+
+
 gulp.task('js', wrapPipe(function (success, error) {
-    return gulp.src(['./node_modules/jquery/dist/jquery.min.js', './src/**/*.js'])
-        .pipe(gulpConcat('index.js').on('error', error))
-        .pipe(gulpUglify().on('error', error))
+    return gulp.src(['./node_modules/react/dist/react.js', './node_modules/react-dom/dist/react-dom.js'])
         .pipe(gulp.dest(buildPath));
 }));
